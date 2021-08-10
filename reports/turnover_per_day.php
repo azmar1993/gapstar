@@ -29,7 +29,7 @@ $export_csv_btn = '';
 if(isset($result['data'])){
     if(count($result['data']) > 0){
 
-        $table .= '<table class="table table-striped" style=\'font-size:13px;\'>
+        $table .= '<table class="table table-striped" style=\'font-size:13px;white-space:nowrap;\'>
                     <tr>
                         <th>DATE</th>
                         <th style="text-align:right;">TOTAL TURNOVER</th>

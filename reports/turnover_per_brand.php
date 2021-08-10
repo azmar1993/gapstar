@@ -28,7 +28,7 @@ $export_csv_btn = '';
 if(isset($result['data'])){
     if(count($result['data']) > 0){
         //creating the html table in PHP separately to append below
-        $table .= '<table class="table table-striped" style=\'font-size:13px;\'>
+        $table .= '<table class="table table-striped" style=\'font-size:13px;white-space:nowrap;\'>
             <thead>
             <tr>
                 <th>BRAND NAME</th>';
