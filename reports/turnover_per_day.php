@@ -1,34 +1,19 @@
 <?php
 
-require '../headers/header.php';
+include("../db/DbAccess.php");
+$db = new DbAccess();
 
-if(isset($_SESSION['loggedIn'])){
-    if($_SESSION['loggedIn'] != '1'){
-        header("Location: ../page/login.php");
-    }
-}else{
-    header("Location: ../page/login.php");
-}
-$signoutUrl = "../page/signout.php";
-
-require '../query_models/DBQueries.php';
-
-$queries = new DBQueries();
-
-$from_date = date('Y-m-d',strtotime('2018-05-01'));
-$to_date = date('Y-m-d',strtotime('2018-05-07'));
-if(isset($_POST['from_date'])){
-    $from_date = date('Y-m-d',strtotime($_POST['from_date']));
-    $to_date = date('Y-m-d',strtotime($_POST['to_date']));
-}
-
-$result = $queries->dayWiseTurnover($from_date,$to_date);
+$result = $db->dayWiseTurnover();
 
 $table = '';
 $export_csv_btn = '';
+
+$from_date = $result['date_range']['from_date'];
+$to_date = $result['date_range']['to_date'];
+
 if(isset($result['data'])){
     if(count($result['data']) > 0){
-
+        //creating the html table in PHP separately to append below
         $table .= '<table class="table table-striped" style=\'font-size:13px;white-space:nowrap;\'>
                     <tr>
                         <th>DATE</th>
@@ -49,7 +34,10 @@ if(isset($result['data'])){
                         <th  style="text-align:right;">'.number_format($total_turnover,2).'</th>
                     </tr>
                 </table>';
-        $export_csv_btn = '<a class="btn btn-info btn-sm" href="../reports/turnover_per_day_csv.php?from_date='.$from_date.'&to_date='.$to_date.'" >Export CSV</a>';
+        $export_csv_btn = '<form action="../lib/phptocsv/export_csv.php" method="post">
+                                <button class="btn btn-info btn-sm" type="submit" >Export CSV</button>
+                                <textarea style="display: none;" name="table_data" >' .$table.'</textarea>
+                           </form>';
     }else{
         $table = '<div class="alert alert-warning" role="alert">Not Available</div>';
     }
@@ -57,16 +45,25 @@ if(isset($result['data'])){
     $table = '<div class="alert alert-warning" role="alert">Not Available</div>';
 }
 ?>
-<a href="<?= $signoutUrl ?>" class="btn btn-warning btn-sm" style="float: right;">Logout</a>
-<a href="../page/home.php" class="btn btn-info btn-sm" style="float: right;">BACK</a>
-<div class="jumbotron text-left">
-    <h5>Overall Turnover Report - Per Day</h5>
-    <p><?= date('d-M, Y',strtotime($from_date)) ?> to <?= date('d-M, Y',strtotime($to_date)) ?> </p>
-    <?= $export_csv_btn ?>
-</div>
-<div class="row">
-    <div class="col-md-5">
-        <?= $table ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ASSESMENT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body style="margin:25px;">
+    <div class="jumbotron text-left">
+        <h5>Overall Turnover Report - Per Day</h5>
+        <p><?= date('d-M, Y',strtotime($from_date)) ?> to <?= date('d-M, Y',strtotime($to_date)) ?> </p>
+        <?= $export_csv_btn ?>
     </div>
-</div>
-</body></html>
+    <div class="row">
+        <div class="col-md-5">
+            <?= $table ?>
+        </div>
+    </div>
+</body>
+</html>

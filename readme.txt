@@ -1,2 +1,5 @@
 Database : otrium_db.sql
-Database Modifications done : New table added as `users`
+
+Database Connection : db/DbConnection.php
+
+Database Queries : db/DbAccess.php

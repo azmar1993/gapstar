@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2021 at 11:06 AM
+-- Generation Time: Aug 12, 2021 at 09:52 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.5.27
 
@@ -2455,25 +2455,6 @@ INSERT INTO `gmv` (`id`, `brand_id`, `date`, `turnover`) VALUES
 (2443, 12, '2018-12-30 00:00:00', '24034.96'),
 (2444, 12, '2018-12-31 00:00:00', '4782.88');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int(11) NOT NULL,
-  `user_name` varchar(25) NOT NULL,
-  `user_password_enc` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`user_id`, `user_name`, `user_password_enc`) VALUES
-(1, 'admin', 'QWRtaW5AMTIz');
-
 --
 -- Indexes for dumped tables
 --
@@ -2492,12 +2473,6 @@ ALTER TABLE `gmv`
   ADD KEY `brand_id` (`brand_id`);
 
 --
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -2511,11 +2486,6 @@ ALTER TABLE `brands`
 --
 ALTER TABLE `gmv`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2445;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
